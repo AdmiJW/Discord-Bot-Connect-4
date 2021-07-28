@@ -1,5 +1,5 @@
 import discord
-import Utilities as util
+import app.Utilities as util
 
 PROFILE_TXT = "Name: **{}**\n" \
               "Wins: **{}**\n" \

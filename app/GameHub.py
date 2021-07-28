@@ -1,7 +1,7 @@
-from GameInstance import GameInstance
-from Player import Player
-import Utilities as util
-from MatchConfirmation import MatchConfirmation
+from app.GameInstance import GameInstance
+from app.Player import Player
+import app.Utilities as util
+from app.MatchConfirmation import MatchConfirmation
 import asyncio
 
 

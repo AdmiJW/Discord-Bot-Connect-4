@@ -1,9 +1,9 @@
 import discord
 from decouple import config
-import Utilities as util
-from MatchMaker import MatchMaker
-from GameHub import GameHub
-from Player import Player
+import app.Utilities as util
+from app.MatchMaker import MatchMaker
+from app.GameHub import GameHub
+from app.Player import Player
 
 TOKEN = config('TOKEN')
 
@@ -83,7 +83,6 @@ bot_commands = {
 @my_bot.event
 async def on_ready():
     print(f"AdmiBot logged in as {my_bot.user}")
-
 
 @my_bot.event
 async def on_message(msg):

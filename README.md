@@ -19,3 +19,5 @@ game!
 
 Clone this repository. Create a `.env` file with the discord bot token in the same directory as the `main.py`.
 Run `main.py` and your discord bot will be online.
+
+Once your bot is in the server and running, type bot command `() help` to get started.

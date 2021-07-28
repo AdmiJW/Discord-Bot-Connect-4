@@ -1,6 +1,6 @@
-from Board import Board
-from Player import Player
-import Utilities as util
+from app.Board import Board
+from app.Player import Player
+import app.Utilities as util
 
 GAME_TITLE = '🔴 \t**Connect 4**\t 🟡'
 BOARD_STATUS = 'Game: **{}** VS **{}**. Current turn: **{}**.\n\n{}'

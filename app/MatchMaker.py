@@ -1,9 +1,9 @@
 from collections import OrderedDict
 import asyncio
 
-import Utilities as util
-from Player import Player
-from MatchConfirmation import MatchConfirmation
+import app.Utilities as util
+from app.Player import Player
+from app.MatchConfirmation import MatchConfirmation
 
 MATCHMAKING_TITLE = '⚔️ **Match Making** ⚔️'
 ALREADY_IN_QUEUE = '⏳ **{}**, you are already in queue! Currently waiting for an opponent... ⏳'
