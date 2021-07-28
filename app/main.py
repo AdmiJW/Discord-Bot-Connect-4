@@ -1,20 +1,13 @@
-import sys
-
+import os
 import discord
-from decouple import config
 import app.Utilities as util
 from app.MatchMaker import MatchMaker
 from app.GameHub import GameHub
 from app.Player import Player
-from app.keepAlive import app
-from threading import Thread
-import os
 
-try:
-    TOKEN = os.environ['TOKEN']
-except Exception:
-    print('Discord bot token not found in os.environ')
-    TOKEN = config('TOKEN')
+TOKEN = os.getenv('TOKEN')
+
+from app.keepAlive import keep_alive
 
 TITLE = '🔴 \t** Simple Connect Four **\t 🟡'
 HELP = '**A Simple Connect 4 Games with cross-channel, multiplayer support**\n' \
@@ -85,16 +78,47 @@ bot_commands = {
     '() 3': lambda p: make_move(p, 3),
     '() 4': lambda p: make_move(p, 4),
     '() 5': lambda p: make_move(p, 5),
-    '() 6': lambda p: make_move(p, 6),
+    '() 6': lambda p: make_move(p, 6)
 }
+
+#####################################################################
+main_server = None
+admijw = None
+ethan = None
+uten = None
+admijw_mention = ''
+ethan_mention = ''
+uten_mention = ''
 
 
 @my_bot.event
 async def on_ready():
+    global admijw, ethan, main_server
+    global admijw_mention, ethan_mention, uten_mention
+
+    await my_bot.change_presence(status=discord.Status.online,
+                                 activity=discord.Activity(name='"() help" to get started',
+                                                           type=discord.ActivityType.listening))
+
     print(f"AdmiBot logged in as {my_bot.user}")
+
+    main_server = discord.utils.get(my_bot.guilds, name='ZMK你要驾姐姐的车?')
+    admijw = await main_server.fetch_member(184288368803184640)
+    ethan = await main_server.fetch_member(667077271273865217)
+    uten = await main_server.fetch_member(809046102996287528)
+
+    admijw_mention = admijw.mention[:2] + '!' + admijw.mention[2:]
+    ethan_mention = ethan.mention
+    uten_mention = uten.mention[:2] + '!' + uten.mention[2:]
+
 
 @my_bot.event
 async def on_message(msg):
+    if admijw.mention == msg.content or admijw_mention == msg.content:
+        await msg.channel.send(
+            "AdmiJW is a veri busy purson. Pls find " + ethan_mention + " or " + uten_mention + " instead 😉")
+        return
+
     # Not a command or it is own bot message. Simply return
     if msg.author == my_bot.user or msg.content not in bot_commands:
         return
@@ -131,6 +155,6 @@ async def on_reaction_add(reaction, user):
     player = players_list[user.id]
     await game_hub.action(player, EMOJI_MAP[reaction.emoji])
 
-t = Thread(target=my_bot.run, args=(TOKEN,))
-t.start()
-app.run()
+
+keep_alive()
+my_bot.run(TOKEN)
