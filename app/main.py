@@ -15,7 +15,6 @@ try:
 except Exception:
     print('Discord bot token not found in os.environ')
     TOKEN = config('TOKEN')
-print(TOKEN)
 
 TITLE = '🔴 \t** Simple Connect Four **\t 🟡'
 HELP = '**A Simple Connect 4 Games with cross-channel, multiplayer support**\n' \
@@ -132,6 +131,6 @@ async def on_reaction_add(reaction, user):
     player = players_list[user.id]
     await game_hub.action(player, EMOJI_MAP[reaction.emoji])
 
-t = Thread(target=app.run)
+t = Thread(target=my_bot.run, args=(TOKEN,))
 t.start()
-my_bot.run(TOKEN)
+app.run()
