@@ -1,11 +1,21 @@
+import sys
+
 import discord
 from decouple import config
 import app.Utilities as util
 from app.MatchMaker import MatchMaker
 from app.GameHub import GameHub
 from app.Player import Player
+from app.keepAlive import app
+from threading import Thread
+import os
 
-TOKEN = config('TOKEN')
+try:
+    TOKEN = os.environ['TOKEN']
+except Exception:
+    print('Discord bot token not found in os.environ')
+    TOKEN = config('TOKEN')
+print(TOKEN)
 
 TITLE = '🔴 \t** Simple Connect Four **\t 🟡'
 HELP = '**A Simple Connect 4 Games with cross-channel, multiplayer support**\n' \
@@ -122,5 +132,6 @@ async def on_reaction_add(reaction, user):
     player = players_list[user.id]
     await game_hub.action(player, EMOJI_MAP[reaction.emoji])
 
-
+t = Thread(target=app.run)
+t.start()
 my_bot.run(TOKEN)
